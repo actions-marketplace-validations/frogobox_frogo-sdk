@@ -2,7 +2,8 @@ package com.frogobox.appuikit.recycler
 
 import android.os.Bundle
 import androidx.core.view.updatePadding
-import com.frogobox.appuikit.core.BaseActivity
+import com.frogobox.BaseActivity
+
 import com.frogobox.appuikit.model.Layout
 import com.frogobox.appuikit.recycler.FrogoRvAdapter.frogoRvAdaper
 import com.frogobox.appuikit.recycler.FrogoRvConstant.TYPE_GRID

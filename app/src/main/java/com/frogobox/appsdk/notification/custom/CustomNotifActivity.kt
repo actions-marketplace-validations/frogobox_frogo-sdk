@@ -2,7 +2,7 @@ package com.frogobox.appsdk.notification.custom
 
 import android.content.Intent
 import android.os.Bundle
-import com.frogobox.appsdk.core.BaseActivity
+import com.frogobox.BaseActivity
 import com.frogobox.databinding.ActivityCustomNotifBinding
 
 class CustomNotifActivity : BaseActivity<ActivityCustomNotifBinding>() {

@@ -14,7 +14,7 @@
 
 <resources>
 
-    <style name="ThemeSdk.HideStatusBarUI" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="ThemeSdk.HideStatusBarUI" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your theme here. -->
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/purple_500</item>

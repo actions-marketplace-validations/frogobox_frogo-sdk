@@ -1,43 +1,34 @@
-package com.frogobox.appadmob.base
+package com.frogobox
 
 import android.content.SharedPreferences
-import android.view.Menu
-import android.view.MenuItem
 import androidx.viewbinding.ViewBinding
-import com.frogobox.BuildConfig
-import com.frogobox.R
+import androidx.viewpager2.widget.ViewPager2
 import com.frogobox.ads.model.FrogoAdmobId
 import com.frogobox.ads.source.FrogoAdmobApiResponse
 import com.frogobox.ads.source.FrogoAdmobRepository
-import com.frogobox.ads.ui.FrogoAdActivity
+import com.frogobox.ads.ui.FrogoAdBindActivity
+import com.frogobox.sdk.delegate.preference.PreferenceDelegates
+import com.frogobox.sdk.delegate.preference.PreferenceDelegatesImpl
 import com.frogobox.sdk.ext.showLogDebug
-import com.google.gson.Gson
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 import org.koin.android.ext.android.inject
 
 /**
- * Created by Faisal Amir
- * FrogoBox Inc License
- * =========================================
- * ImplementationAdmob
- * Copyright (C) 27/11/2019.
- * All rights reserved
+ * Created by faisalamircs on 02/11/2025
  * -----------------------------------------
  * Name     : Muhammad Faisal Amir
  * E-mail   : faisalamircs@gmail.com
  * Github   : github.com/amirisback
- * LinkedIn : linkedin.com/in/faisalamircs
  * -----------------------------------------
- * FrogoBox Software Industries
- * com.frogobox.admobhelper.base
- *
  */
-abstract class BaseActivity<VB : ViewBinding> : FrogoAdActivity() {
 
-    protected val binding: VB by lazy { setupViewBinding() }
+
+abstract class BaseActivity<VB : ViewBinding> : FrogoAdBindActivity<VB>() {
+
+    protected val singlePref: PreferenceDelegates by inject<PreferenceDelegatesImpl>()
 
     protected val frogoSharedPreferences: SharedPreferences by inject()
-
-    abstract fun setupViewBinding(): VB
 
     override fun setupDebugMode(): Boolean {
         return BuildConfig.DEBUG
@@ -54,8 +45,7 @@ abstract class BaseActivity<VB : ViewBinding> : FrogoAdActivity() {
     }
 
     protected fun requestAdmobApi() {
-        val baseUrl =
-            "https://raw.githubusercontent.com/amirisback/frogo-admob/master/app/src/main/assets/"
+        val baseUrl = "https://raw.githubusercontent.com/amirisback/frogo-admob/master/app/src/main/assets/"
         val frogoAdmobRepository = FrogoAdmobRepository(BuildConfig.DEBUG, baseUrl)
         frogoAdmobRepository.usingClient(this)
         frogoAdmobRepository.getFrogoAdmobId(
@@ -78,42 +68,20 @@ abstract class BaseActivity<VB : ViewBinding> : FrogoAdActivity() {
                     }
                 }
 
-                override fun onFinish() {
-                }
-
-                override fun onShowProgress() {
-                }
-
-                override fun onHideProgress() {
-                }
+                override fun onFinish() {}
+                override fun onShowProgress() {}
+                override fun onHideProgress() {}
             })
     }
 
-    protected inline fun <reified Model> baseGetExtraData(extraKey: String): Model {
-        val extraIntent = intent.getStringExtra(extraKey)
-        return Gson().fromJson(extraIntent, Model::class.java)
-    }
-
-    protected fun <Model, VB : ViewBinding> baseFragmentNewInstance(
-        fragment: BaseFragment<VB>,
-        argumentKey: String,
-        extraDataResult: Model
+    protected fun setupTabTitles(
+        tabLayout: TabLayout,
+        viewPager2: ViewPager2,
+        titles: MutableList<String>,
     ) {
-        fragment.baseNewInstance(argumentKey, extraDataResult)
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            android.R.id.home -> {
-                finish()
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
+        TabLayoutMediator(tabLayout, viewPager2) { tab: TabLayout.Tab, position: Int ->
+            tab.text = titles[position]
+        }.attach()
     }
 
 }

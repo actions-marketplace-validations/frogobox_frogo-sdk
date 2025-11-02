@@ -1,5 +1,8 @@
-package com.frogobox.appsdk.di
+package com.frogobox.di
 
+import com.frogobox.appadmob.source.AdmobLocalDataSource
+import com.frogobox.appadmob.source.AdmobRemoteDataSource
+import com.frogobox.appadmob.source.AdmobRepository
 import com.frogobox.appsdk.source.AppDatabase
 import com.frogobox.appsdk.source.AppLocalDataSource
 import com.frogobox.appsdk.source.AppRemoteDataSource
@@ -47,5 +50,17 @@ val repositoryModule = module {
     }
 
     // Please Add Your Code Under This Line --------------------------------------------------------
+
+    single {
+        AdmobLocalDataSource(AppExecutors(), get())
+    }
+
+    single {
+        AdmobRemoteDataSource()
+    }
+
+    single {
+        AdmobRepository(get(), get())
+    }
 
 }

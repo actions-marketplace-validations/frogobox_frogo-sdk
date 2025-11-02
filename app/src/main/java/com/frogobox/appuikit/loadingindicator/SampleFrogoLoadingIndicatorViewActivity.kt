@@ -7,7 +7,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.frogobox.appuikit.core.BaseActivity
+import com.frogobox.BaseActivity
+
 import com.frogobox.databinding.ActivitySampleLoadingIndicatorViewBinding
 import com.frogobox.databinding.ItemIndicatorBinding
 

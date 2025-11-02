@@ -7,8 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import com.frogobox.BaseFragment
 import com.frogobox.R
-import com.frogobox.appuikit.core.BaseFragment
 import com.frogobox.appuikit.model.Layout
 import com.frogobox.databinding.FragmentRecyclerGridBinding
 import com.frogobox.recycler.core.FrogoRecyclerNotifyListener
@@ -31,7 +31,7 @@ class RecyclerGridFragment : BaseFragment<FragmentRecyclerGridBinding>() {
 
     private fun intentToLayoutSample(data: Layout) {
         val dataString = Gson().toJson(data)
-        val intent = Intent(mActivity, RecyclerViewDetailActivity::class.java)
+        val intent = Intent(requireContext(), RecyclerViewDetailActivity::class.java)
         intent.putExtra("EXTRA_DATA", dataString)
         startActivity(intent)
     }

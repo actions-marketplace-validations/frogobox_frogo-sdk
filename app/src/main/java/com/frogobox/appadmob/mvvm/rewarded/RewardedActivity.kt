@@ -1,9 +1,9 @@
 package com.frogobox.appadmob.mvvm.rewarded
 
 import android.os.Bundle
+import com.frogobox.BaseActivity
 import com.frogobox.R
 import com.frogobox.ads.callback.FrogoAdmobRewardedCallback
-import com.frogobox.appadmob.base.BaseActivity
 import com.frogobox.databinding.ActivityRewardedBinding
 import com.frogobox.sdk.ext.gone
 import com.frogobox.sdk.ext.showToast

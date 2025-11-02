@@ -1,7 +1,7 @@
 package com.frogobox.appadmob.mvvm.main
 
 import android.content.Context
-import com.frogobox.appadmob.base.BaseViewModel
+import com.frogobox.BaseViewModel
 import com.frogobox.appadmob.source.AdmobRepository
 
 

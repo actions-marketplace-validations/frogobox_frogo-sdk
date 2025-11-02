@@ -1,8 +1,9 @@
 package com.frogobox.appuikit.recycler
 
 import android.os.Bundle
-import com.frogobox.appuikit.core.BaseActivity
-import com.frogobox.appuikit.core.BasePagerAdapter
+import com.frogobox.BaseActivity
+import com.frogobox.BasePagerAdapter
+
 import com.frogobox.databinding.ActivityRecyclerViewBinding
 
 class RecyclerViewActivity : BaseActivity<ActivityRecyclerViewBinding>() {

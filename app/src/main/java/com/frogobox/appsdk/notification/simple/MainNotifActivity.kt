@@ -13,8 +13,8 @@ import android.os.Bundle
 import android.widget.RemoteViews
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
+import com.frogobox.BaseActivity
 import com.frogobox.R
-import com.frogobox.appsdk.core.BaseActivity
 import com.frogobox.appsdk.notification.custom.CustomNotifActivity
 import com.frogobox.appsdk.notification.stack.StackNotifActivity
 import com.frogobox.databinding.ActivityMainNotifBinding

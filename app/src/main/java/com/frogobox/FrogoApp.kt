@@ -5,13 +5,11 @@ import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
 import com.frogobox.appadmob.FrogoAdmobKoinApplication
-import com.frogobox.appadmob.di.repositoryAdsModule
-import com.frogobox.appadmob.di.viewModelAdsModule
 import com.frogobox.appadmob.util.AdHelper
-import com.frogobox.appsdk.di.repositoryModule
-import com.frogobox.appsdk.di.viewModelModule
 import com.frogobox.appsdk.util.AppConstant.CHANNEL_ID
 import com.frogobox.appsdk.util.AppConstant.CHANNEL_NAME
+import com.frogobox.di.repositoryModule
+import com.frogobox.di.viewModelModule
 import com.frogobox.sdk.FrogoApplication
 import java.util.Locale
 
@@ -51,8 +49,6 @@ class FrogoApp : FrogoAdmobKoinApplication() {
             listOf(
                 repositoryModule,
                 viewModelModule,
-                viewModelAdsModule,
-                repositoryAdsModule
             )
         )
     }

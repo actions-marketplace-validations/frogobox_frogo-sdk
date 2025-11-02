@@ -5,10 +5,10 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 
+import com.frogobox.BaseActivity;
 import com.frogobox.R;
 import com.frogobox.ads.callback.FrogoAdmobInterstitialCallback;
 import com.frogobox.ads.callback.FrogoAdmobRewardedCallback;
-import com.frogobox.appadmob.base.BaseActivity;
 import com.frogobox.databinding.ActivityMainAdmobBinding;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.rewarded.RewardItem;
