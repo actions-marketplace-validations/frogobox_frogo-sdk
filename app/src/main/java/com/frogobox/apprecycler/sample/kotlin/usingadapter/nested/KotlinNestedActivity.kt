@@ -1,6 +1,6 @@
 package com.frogobox.apprecycler.sample.kotlin.usingadapter.nested
 
-import com.frogobox.apprecycler.core.BaseActivity
+import com.frogobox.BaseActivity
 import com.frogobox.databinding.ActivityFrogoRvGridBinding
 
 class KotlinNestedActivity : BaseActivity<ActivityFrogoRvGridBinding>() {

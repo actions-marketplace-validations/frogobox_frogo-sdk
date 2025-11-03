@@ -1,7 +1,9 @@
-package com.frogobox.appsdk.di
+package com.frogobox.di
 
+import com.frogobox.appadmob.mvvm.main.MainAdmobViewModel
 import com.frogobox.appsdk.news.NewsViewModel
 import com.frogobox.appsdk.news.result.NewsResultViewModel
+import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -27,6 +29,10 @@ val viewModelModule = module {
 
     viewModel {
         NewsResultViewModel(get())
+    }
+
+    viewModel {
+        MainAdmobViewModel(androidContext(), get())
     }
 
 }

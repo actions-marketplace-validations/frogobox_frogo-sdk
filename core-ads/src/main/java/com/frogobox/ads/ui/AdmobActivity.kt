@@ -24,8 +24,7 @@ abstract class AdmobActivity : AppCompatActivity(),
 
     open fun setupMonetized() {
         setupAdmobDelegates(this)
-        val backgroundScope = CoroutineScope(Dispatchers.IO)
-        backgroundScope.launch {
+        CoroutineScope(Dispatchers.IO).launch {
             // Initialize the Google Mobile Ads SDK on a background thread.
             setupAdmobApp()
         }

@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.frogobox.apprecycler.core.BaseActivity
+import com.frogobox.BaseActivity
 import com.frogobox.apprecycler.model.ExampleModel
 import com.frogobox.apprecycler.util.Constant
 import com.frogobox.apprecycler.util.FLog
@@ -18,6 +18,7 @@ import com.frogobox.recycler.core.IFrogoBindingAdapter
 import com.frogobox.recycler.core.IFrogoBuilderRv
 import com.frogobox.recycler.core.IFrogoBuilderRvBinding
 import com.frogobox.recycler.core.IFrogoViewAdapter
+import com.frogobox.sdk.ext.showToast
 import com.frogobox.ui.R
 import com.frogobox.ui.databinding.FrogoRvListType1Binding
 

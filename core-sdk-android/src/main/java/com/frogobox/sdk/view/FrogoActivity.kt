@@ -10,6 +10,7 @@ import android.view.WindowInsetsController
 import android.view.WindowManager
 import android.window.OnBackInvokedDispatcher
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.ColorRes
@@ -61,9 +62,13 @@ abstract class FrogoActivity : AppCompatActivity() {
     // ---------------------------------------------------------------------------------------------
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setupEnableEdgeToEdge()
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.TIRAMISU) {
+            setupEnableEdgeToEdge()
+        }
         setupContentView()
-        setupSetOnApplyWindowInsetsListener()
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.TIRAMISU) {
+            setupSetOnApplyWindowInsetsListener()
+        }
         setupDoOnBackPressedExt()
         setupDelegates()
         setupPiracyMode()
@@ -105,10 +110,17 @@ abstract class FrogoActivity : AppCompatActivity() {
     }
 
     // ---------------------------------------------------------------------------------------------
+    // Enable Edge To Edge
+    // ---------------------------------------------------------------------------------------------
+
+    open fun setupEnableEdgeToEdge() {
+        enableEdgeToEdge()
+    }
+
+    // ---------------------------------------------------------------------------------------------
     // Setup Hooks — override freely in subclasses
     // ---------------------------------------------------------------------------------------------
     open fun setupDebugMode(): Boolean = true
-    open fun setupEnableEdgeToEdge() {}
     open fun setupSetOnApplyWindowInsetsListener() {}
     open fun setupPiracyMode() {}
     open fun setupDelegates() {}

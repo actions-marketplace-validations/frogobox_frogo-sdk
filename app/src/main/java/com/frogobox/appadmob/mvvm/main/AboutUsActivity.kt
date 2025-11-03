@@ -1,10 +1,10 @@
 package com.frogobox.appadmob.mvvm.main
 
 import android.os.Bundle
-import com.frogobox.ads.ui.FrogoAdBindActivity
+import com.frogobox.BaseActivity
 import com.frogobox.sdk.databinding.ActivityFrogoAboutUsBinding
 
-class AboutUsActivity : FrogoAdBindActivity<ActivityFrogoAboutUsBinding>() {
+class AboutUsActivity : BaseActivity<ActivityFrogoAboutUsBinding>() {
 
     override fun setupViewBinding(): ActivityFrogoAboutUsBinding {
         return ActivityFrogoAboutUsBinding.inflate(layoutInflater)

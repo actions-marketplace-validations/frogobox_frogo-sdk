@@ -2,7 +2,7 @@ package com.frogobox.appsdk.news.result
 
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.frogobox.appsdk.core.BaseActivity
+import com.frogobox.BaseActivity
 import com.frogobox.appsdk.model.Article
 import com.frogobox.appsdk.news.NewsViewAdapter
 import com.frogobox.coresdk.source.Resource

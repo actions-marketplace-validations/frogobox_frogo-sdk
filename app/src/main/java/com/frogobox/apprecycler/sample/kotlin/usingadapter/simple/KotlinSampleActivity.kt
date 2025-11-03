@@ -3,7 +3,7 @@ package com.frogobox.apprecycler.sample.kotlin.usingadapter.simple
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import com.frogobox.apprecycler.core.BaseActivity
+import com.frogobox.BaseActivity
 import com.frogobox.apprecycler.model.ExampleModel
 import com.frogobox.apprecycler.util.Constant
 import com.frogobox.databinding.ActivityFrogoRvListBinding

@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
-import com.frogobox.apprecycler.core.BaseActivity
+import com.frogobox.BaseActivity
 import com.frogobox.databinding.ActivityFrogoRvGridBinding
 import com.frogobox.recycler.R
 import com.frogobox.recycler.core.FrogoNestedAdapter
@@ -13,6 +13,7 @@ import com.frogobox.recycler.core.FrogoRecyclerViewListener
 import com.frogobox.recycler.core.FrogoRvConstant
 import com.frogobox.recycler.core.IFrogoNestedHolder
 import com.frogobox.recycler.core.IFrogoViewHolder
+import com.frogobox.sdk.ext.showToast
 
 class KotlinSimpleNestedActivity : BaseActivity<ActivityFrogoRvGridBinding>() {
 

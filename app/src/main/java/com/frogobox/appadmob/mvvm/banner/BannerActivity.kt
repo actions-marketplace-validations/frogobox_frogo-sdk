@@ -1,6 +1,6 @@
 package com.frogobox.appadmob.mvvm.banner
 
-import com.frogobox.appadmob.base.BaseActivity
+import com.frogobox.BaseActivity
 import com.frogobox.databinding.ActivityBannerBinding
 
 class BannerActivity : BaseActivity<ActivityBannerBinding>() {

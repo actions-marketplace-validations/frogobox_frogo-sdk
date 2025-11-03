@@ -1,4 +1,4 @@
-package com.frogobox.appadmob.base
+package com.frogobox
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
+import com.frogobox.sdk.view.FrogoBindFragment
 import com.google.gson.Gson
 
 /**
@@ -27,37 +28,17 @@ import com.google.gson.Gson
  * com.frogobox.admobhelper.activity
  *
  */
-abstract class BaseFragment<VB : ViewBinding> : Fragment() {
+abstract class BaseFragment<VB : ViewBinding> : FrogoBindFragment<VB>() {
 
-    protected var binding: VB? = null
     protected lateinit var mBaseActivity: BaseActivity<*>
-
-    abstract fun setupViewBinding(inflater: LayoutInflater, container: ViewGroup?): VB
-
-    override fun onDestroy() {
-        super.onDestroy()
-        binding = null
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        mBaseActivity = (activity as BaseActivity<*>)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = setupViewBinding(inflater, container)
-        return binding?.root
-    }
-
-    protected fun setupChildFragment(frameId: Int, fragment: Fragment) {
-        childFragmentManager.beginTransaction().apply {
-            replace(frameId, fragment)
-            commit()
-        }
+        mBaseActivity = (activity as BaseActivity<*>)
+        return super.onCreateView(inflater, container, savedInstanceState)
     }
 
     protected fun setupShowAdsInterstitial(interstitialAdUnitId: String) {
@@ -77,10 +58,6 @@ abstract class BaseFragment<VB : ViewBinding> : Fragment() {
         return Gson().fromJson(argsData, Model::class.java)
     }
 
-    protected fun checkArgument(argsKey: String): Boolean {
-        return requireArguments().containsKey(argsKey)
-    }
-
     protected fun setupEventEmptyView(view: View, isEmpty: Boolean) {
         if (isEmpty) {
             view.visibility = View.VISIBLE
@@ -95,10 +72,6 @@ abstract class BaseFragment<VB : ViewBinding> : Fragment() {
         } else {
             view.visibility = View.GONE
         }
-    }
-
-    protected fun showToast(message: String) {
-        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 
     protected inline fun <reified ClassActivity> frogoStartActivity() {

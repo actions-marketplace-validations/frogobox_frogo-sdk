@@ -1,7 +1,7 @@
 package com.frogobox.appsdk.log
 
 import android.os.Bundle
-import com.frogobox.appsdk.core.BaseActivity
+import com.frogobox.BaseActivity
 import com.frogobox.databinding.ActivityLogBinding
 import com.frogobox.sdk.log.FLog
 import com.frogobox.sdk.log.FrogoLog

@@ -2,7 +2,8 @@ package com.frogobox.appuikit.loadingindicator
 
 import android.os.Bundle
 import android.view.View
-import com.frogobox.appuikit.core.BaseActivity
+import com.frogobox.BaseActivity
+
 import com.frogobox.databinding.ActivityDetailLoadingIndicatorViewBinding
 
 /**

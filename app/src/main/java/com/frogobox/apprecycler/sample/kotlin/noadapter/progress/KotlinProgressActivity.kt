@@ -1,6 +1,6 @@
 package com.frogobox.apprecycler.sample.kotlin.noadapter.progress
 
-import com.frogobox.apprecycler.core.BaseActivity
+import com.frogobox.BaseActivity
 import com.frogobox.databinding.ActivityKotlinProgressBinding
 
 class KotlinProgressActivity : BaseActivity<ActivityKotlinProgressBinding>() {

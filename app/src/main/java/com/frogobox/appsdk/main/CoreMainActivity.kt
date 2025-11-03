@@ -1,7 +1,7 @@
 package com.frogobox.appsdk.main
 
 import androidx.viewbinding.ViewBinding
-import com.frogobox.appsdk.core.BaseActivity
+import com.frogobox.BaseActivity
 import com.frogobox.sdk.delegate.piracy.PiracyCallback
 import com.frogobox.sdk.delegate.piracy.PiracyDelegates
 import com.frogobox.sdk.delegate.piracy.PiracyDelegatesImpl
