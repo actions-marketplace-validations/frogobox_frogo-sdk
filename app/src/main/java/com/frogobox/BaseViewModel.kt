@@ -1,4 +1,4 @@
-package com.frogobox.appadmob.base
+package com.frogobox
 
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
@@ -6,6 +6,8 @@ import com.frogobox.ads.callback.FrogoAdmobInterstitialCallback
 import com.frogobox.ads.core.FrogoAdmob
 import com.frogobox.appadmob.source.AdmobRepository
 import com.frogobox.coresdk.response.FrogoDataResponse
+import com.frogobox.sdk.ext.showLogDebug
+import com.frogobox.sdk.ext.showLogError
 import com.frogobox.sdk.view.FrogoViewModel
 import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.FullScreenContentCallback
@@ -51,18 +53,18 @@ open class BaseViewModel(
                 data.fullScreenContentCallback =
                     object : FullScreenContentCallback() {
                         override fun onAdDismissedFullScreenContent() {
-                            com.frogobox.sdk.ext.showLogDebug("${FrogoAdmob.TAG} [Interstitial] >> Run - IFrogoAdInterstitial [callback] : onAdDismissed()")
-                            com.frogobox.sdk.ext.showLogDebug("${FrogoAdmob.TAG} [Interstitial] >> Succes - onAdDismissedFullScreenContent [message] : Ad was dismissed")
+                            showLogDebug("${FrogoAdmob.TAG} [Interstitial] >> Run - IFrogoAdInterstitial [callback] : onAdDismissed()")
+                            showLogDebug("${FrogoAdmob.TAG} [Interstitial] >> Succes - onAdDismissedFullScreenContent [message] : Ad was dismissed")
                             callback?.onAdDismissed(FrogoAdmob.TAG, "Interstitial Ad was dismissed")
                         }
 
                         override fun onAdFailedToShowFullScreenContent(adError: AdError) {
-                            com.frogobox.sdk.ext.showLogError("${FrogoAdmob.TAG} [Interstitial] >> Run - IFrogoAdInterstitial [callback] : onAdFailedToShow()")
-                            com.frogobox.sdk.ext.showLogError("${FrogoAdmob.TAG} [Interstitial] >> Error - onAdFailedToShowFullScreenContent [unit id] : $")
-                            com.frogobox.sdk.ext.showLogError("${FrogoAdmob.TAG} [Interstitial] >> Error - onAdFailedToShowFullScreenContent [code] : ${adError.code}")
-                            com.frogobox.sdk.ext.showLogError("${FrogoAdmob.TAG} [Interstitial] >> Error - onAdFailedToShowFullScreenContent [domain] : ${adError.domain}")
-                            com.frogobox.sdk.ext.showLogError("${FrogoAdmob.TAG} [Interstitial] >> Error - onAdFailedToShowFullScreenContent [message] : ${adError.message}")
-                            com.frogobox.sdk.ext.showLogError("${FrogoAdmob.TAG} [Interstitial] >> Error : Ad failed to show")
+                            showLogError("${FrogoAdmob.TAG} [Interstitial] >> Run - IFrogoAdInterstitial [callback] : onAdFailedToShow()")
+                            showLogError("${FrogoAdmob.TAG} [Interstitial] >> Error - onAdFailedToShowFullScreenContent [unit id] : $")
+                            showLogError("${FrogoAdmob.TAG} [Interstitial] >> Error - onAdFailedToShowFullScreenContent [code] : ${adError.code}")
+                            showLogError("${FrogoAdmob.TAG} [Interstitial] >> Error - onAdFailedToShowFullScreenContent [domain] : ${adError.domain}")
+                            showLogError("${FrogoAdmob.TAG} [Interstitial] >> Error - onAdFailedToShowFullScreenContent [message] : ${adError.message}")
+                            showLogError("${FrogoAdmob.TAG} [Interstitial] >> Error : Ad failed to show")
                             callback?.onHideAdRequestProgress(
                                 FrogoAdmob.TAG,
                                 "${FrogoAdmob.TAG} [Interstitial] >> Error - onHideAdRequestProgress [message] : onAdFailedToShowFullScreenContent"
@@ -71,8 +73,8 @@ open class BaseViewModel(
                         }
 
                         override fun onAdShowedFullScreenContent() {
-                            com.frogobox.sdk.ext.showLogDebug("${FrogoAdmob.TAG} [Interstitial] >> Run - IFrogoAdInterstitial [callback] : onAdShowed()")
-                            com.frogobox.sdk.ext.showLogDebug("${FrogoAdmob.TAG} [Interstitial] >> Succes - onAdShowedFullScreenContent [message] : Ad showed fullscreen content")
+                            showLogDebug("${FrogoAdmob.TAG} [Interstitial] >> Run - IFrogoAdInterstitial [callback] : onAdShowed()")
+                            showLogDebug("${FrogoAdmob.TAG} [Interstitial] >> Succes - onAdShowedFullScreenContent [message] : Ad showed fullscreen content")
                             callback?.onHideAdRequestProgress(
                                 FrogoAdmob.TAG,
                                 "${FrogoAdmob.TAG} [Interstitial] >> Succes - onHideAdRequestProgress [message] : Ad showed fullscreen content"

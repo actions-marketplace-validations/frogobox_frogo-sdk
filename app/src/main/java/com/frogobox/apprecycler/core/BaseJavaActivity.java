@@ -21,6 +21,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.Objects;
+
 public abstract class BaseJavaActivity<VB> extends AppCompatActivity {
 
     protected VB binding;
@@ -33,9 +35,8 @@ public abstract class BaseJavaActivity<VB> extends AppCompatActivity {
         binding = setupViewBinding();
     }
 
-
     protected void setupDetailActivity(String title) {
-        getSupportActionBar().setTitle(title);
+        Objects.requireNonNull(getSupportActionBar()).setTitle(title);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 

@@ -1,9 +1,8 @@
-package com.frogobox.appuikit.core
+package com.frogobox
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
-
 
 /**
  * Created by Faisal Amir

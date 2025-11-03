@@ -4,10 +4,10 @@ import android.app.Activity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import com.frogobox.BaseActivity
 import com.frogobox.BuildConfig
 import com.frogobox.R
 import com.frogobox.ads.core.IFrogoAdConsent
-import com.frogobox.appadmob.base.BaseActivity
 import com.frogobox.appadmob.mvvm.appopenad.AppOpenAdActivity
 import com.frogobox.appadmob.mvvm.interstitial.InterstitialActivity
 import com.frogobox.appadmob.mvvm.rewarded.RewardedActivity

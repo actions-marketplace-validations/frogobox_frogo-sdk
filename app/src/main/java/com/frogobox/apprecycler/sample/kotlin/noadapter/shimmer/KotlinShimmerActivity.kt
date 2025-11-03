@@ -1,6 +1,6 @@
 package com.frogobox.apprecycler.sample.kotlin.noadapter.shimmer
 
-import com.frogobox.apprecycler.core.BaseActivity
+import com.frogobox.BaseActivity
 import com.frogobox.databinding.ActivityKotlinShimmerBinding
 
 class KotlinShimmerActivity : BaseActivity<ActivityKotlinShimmerBinding>() {

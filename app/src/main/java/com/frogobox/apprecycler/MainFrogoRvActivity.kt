@@ -2,7 +2,7 @@ package com.frogobox.apprecycler
 
 import android.content.Intent
 import android.os.Bundle
-import com.frogobox.apprecycler.core.BaseActivity
+import com.frogobox.BaseActivity
 import com.frogobox.apprecycler.sample.issue.AnswerIssueActivity
 import com.frogobox.apprecycler.sample.java.noadapter.multiview.JavaNoAdapterMultiViewActivity
 import com.frogobox.apprecycler.sample.java.noadapter.simple.JavaNoAdapterActivity

@@ -2,7 +2,8 @@ package com.frogobox.appuikit.loadingindicator
 
 import android.os.Bundle
 import android.view.View
-import com.frogobox.appuikit.core.BaseActivity
+import com.frogobox.BaseActivity
+
 import com.frogobox.databinding.ActivityDetailLoadingIndicatorViewBinding
 
 /**
@@ -17,6 +18,7 @@ class DetailLoadingIndicatorActivity : BaseActivity<ActivityDetailLoadingIndicat
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val indicator = intent.getStringExtra("indicator")
+        binding.tvTitle.text = indicator
         binding.fli.setIndicator(indicator)
     }
 

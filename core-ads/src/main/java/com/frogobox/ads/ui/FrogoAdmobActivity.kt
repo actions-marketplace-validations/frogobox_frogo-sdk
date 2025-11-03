@@ -35,8 +35,7 @@ abstract class FrogoAdmobActivity : FrogoActivity(),
     override fun setupMonetized() {
         super.setupMonetized()
         setupAdmobDelegates(this)
-        val backgroundScope = CoroutineScope(Dispatchers.IO)
-        backgroundScope.launch {
+        CoroutineScope(Dispatchers.IO).launch {
             // Initialize the Google Mobile Ads SDK on a background thread.
             setupAdmobApp()
         }

@@ -4,9 +4,10 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
+import com.frogobox.BaseActivity
 import com.frogobox.R
 import com.frogobox.appuikit.animation.SampleFrogoAnimationActivity
-import com.frogobox.appuikit.core.BaseActivity
+
 import com.frogobox.appuikit.loadingindicator.SampleFrogoLoadingIndicatorViewActivity
 import com.frogobox.appuikit.model.Main
 import com.frogobox.appuikit.recycler.RecyclerViewActivity
