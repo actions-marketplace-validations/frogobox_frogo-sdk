@@ -370,3 +370,115 @@ FrogoGlideLazyRow(data, modifier, contentPadding, key, emptyContent, itemContent
 FrogoGlideLazyVerticalGrid(data, columns, modifier, contentPadding, key, emptyContent, itemContent)
 FrogoGlideListItem(imageUrl, headlineText, supportingText, overlineText, trailingContent, placeholder, error, onClick, colors)
 ```
+
+---
+
+## Animations & Transitions (`animation/`)
+
+### FrogoAnimationComposeType (Enum)
+Attention-seeking and entrance animations:
+- `Bounce`, `Flash`, `Pulse`, `Rubberband`, `Shake`, `Standup`, `Swing`, `Tada`, `Wave`, `Wobble`
+- `FadeIn`, `FadeOut`, `ZoomIn`, `ZoomOut`
+
+### Modifier.frogoAnimationCompose
+Applies custom animations to any Composable:
+```kotlin
+fun Modifier.frogoAnimationCompose(
+    type: FrogoAnimationComposeType,
+    trigger: Any? = null,
+    durationMillis: Int = 1000,
+    repeat: Boolean = false
+): Modifier
+```
+
+### FrogoSingleAnimationCompose (Object)
+Native Jetpack Compose equivalents for legacy activity transition animations (e.g. for Compose Navigation transition specs):
+- `slideLeftEnter` / `slideLeftExit`
+- `slideRightEnter` / `slideRightExit`
+- `slideDownEnter` / `slideDownExit`
+- `slideUpEnter` / `slideUpExit`
+- `zoomEnter` / `zoomExit`
+- `fadeEnter` / `fadeExit`
+- `windmillEnter` / `windmillExit`
+- `spinEnter` / `spinExit`
+- `diagonalEnter` / `diagonalExit`
+- `splitEnter` / `splitExit`
+- `shrinkEnter` / `shrinkExit`
+- `cardEnter` / `cardExit`
+- `inAndOutEnter` / `inAndOutExit`
+- `swipeLeftEnter` / `swipeLeftExit`
+- `swipeRightEnter` / `swipeRightExit`
+
+---
+
+## Interactive Fireworks (`fireworks/`)
+
+### FrogoFireworksCompose
+Renders a custom Particle System Canvas matching active particle states:
+```kotlin
+@Composable
+fun FrogoFireworksCompose(
+    state: FrogoFireworksStateCompose,
+    modifier: Modifier = Modifier
+)
+```
+
+### FrogoFireworksStateCompose (Class)
+Manages the particle list and lifecycle of active animations:
+- `explode(x: Float, y: Float, colors: List<Color>, count: Int)`: Triggers a one-shot explosion.
+- `startEmit(x: Float, y: Float, colors: List<Color>, rateMillis: Long)`: Emits particles continuously.
+- `stopEmit()`: Disables emission.
+
+### rememberFrogoFireworksStateCompose
+Creates and remembers the fireworks controller state across recompositions:
+```kotlin
+@Composable
+fun rememberFrogoFireworksStateCompose(): FrogoFireworksStateCompose
+```
+
+---
+
+## Canvas Loading Indicators (`loadingindicator/`)
+
+### FrogoLoadingIndicatorCompose
+A high-performance custom Canvas loading spinner:
+```kotlin
+@Composable
+fun FrogoLoadingIndicatorCompose(
+    modifier: Modifier = Modifier,
+    indicatorName: String = "BallPulseIndicator",
+    color: Color = Color.White,
+    size: Dp = 48.dp
+)
+```
+**Supported styles (`indicatorName`):**
+- `BallPulseIndicator` or `BallPulse`
+- `BallClipRotateIndicator` or `BallClipRotate`
+- `BallScaleIndicator` or `BallScale`
+- `LineScaleIndicator` or `LineScale`
+- `PacmanIndicator` or `Pacman`
+
+---
+
+## Compose Extensions (`ext/`)
+
+### Modifier.frogoStartAnimationCompose
+Triggers a default attention animation (Rubberband) on the Composable:
+```kotlin
+fun Modifier.frogoStartAnimationCompose(
+    isRepeat: Boolean = false,
+    trigger: Any? = null
+): Modifier
+```
+
+### Modifier.frogoClickWithFireworksCompose
+Attaches a tap listener that triggers a fireworks particle explosion exactly at the clicked screen coordinate:
+```kotlin
+fun Modifier.frogoClickWithFireworksCompose(
+    state: FrogoFireworksStateCompose,
+    colors: List<Color> = listOf(Color.Red, Color.Yellow, Color.Green, Color.Blue, Color.Magenta, Color.Cyan),
+    count: Int = 40,
+    onClick: () -> Unit
+): Modifier
+```
+
