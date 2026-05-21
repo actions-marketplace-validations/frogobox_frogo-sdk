@@ -54,6 +54,13 @@ android {
         }
     }
 
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = true
+            isReturnDefaultValues = true
+        }
+    }
+
 }
 
 kotlin {
@@ -66,6 +73,12 @@ kotlin {
 dependencies {
     api(libs.androidx.recyclerview)
     api(libs.flexbox)
+
+    testImplementation(libs.junit)
+    testImplementation(libs.mockk)
+    testImplementation(libs.robolectric)
+    testImplementation(libs.androidx.test.core)
+    testImplementation(libs.espresso.core)
 }
 
 afterEvaluate {

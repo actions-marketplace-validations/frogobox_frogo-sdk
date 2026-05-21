@@ -30,8 +30,22 @@ fun FrogoGlideImage(
         contentDescription = contentDescription,
         modifier = modifier.clip(shape),
         contentScale = contentScale,
-        loading = placeholder?.let { placeholder(it) },
-        failure = error?.let { placeholder(it) },
+        loading = placeholder?.let { painter ->
+            placeholder(composable = {
+                androidx.compose.foundation.Image(
+                    painter = painter,
+                    contentDescription = null
+                )
+            })
+        },
+        failure = error?.let { painter ->
+            placeholder(composable = {
+                androidx.compose.foundation.Image(
+                    painter = painter,
+                    contentDescription = null
+                )
+            })
+        },
         requestBuilderTransform = requestBuilderTransform
     )
 }
