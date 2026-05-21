@@ -72,6 +72,10 @@ dependencies {
     api(libs.coil.network.okhttp)
     api(libs.glide.compose)
 
+    // Legacy View interop dependencies (for migrated FrogoLoadingIndicatorView, themes, etc.)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.material)
+
     debugApi(libs.androidx.compose.ui.tooling)
 }
 
