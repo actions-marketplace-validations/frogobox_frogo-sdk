@@ -34,6 +34,11 @@ dependencies {
 
     api(libs.reactivex.rxjava3)
     api(libs.kotlinx.coroutines.core)
+
+    testImplementation(libs.junit)
+    testImplementation(libs.mockk)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.mockwebserver)
 }
 
 publishing {

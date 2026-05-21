@@ -50,6 +50,13 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = true
+            isReturnDefaultValues = true
+        }
+    }
+
 }
 
 kotlin {
@@ -65,6 +72,12 @@ dependencies {
     implementation(libs.material)
 
     api(libs.github.circleimageview)
+
+    testImplementation(libs.junit)
+    testImplementation(libs.mockk)
+    testImplementation(libs.robolectric)
+    testImplementation(libs.androidx.test.core)
+    testImplementation(libs.espresso.core)
 }
 
 afterEvaluate {

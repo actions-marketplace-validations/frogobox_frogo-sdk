@@ -50,6 +50,13 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = true
+            isReturnDefaultValues = true
+        }
+    }
+
 }
 
 kotlin {
@@ -65,6 +72,12 @@ dependencies {
     api(libs.ads.google.admob)
     api(libs.androidx.lifecycle.process)
     api(libs.ads.unityAd)
+
+    testImplementation(libs.junit)
+    testImplementation(libs.mockk)
+    testImplementation(libs.robolectric)
+    testImplementation(libs.androidx.test.core)
+    testImplementation(libs.espresso.core)
 }
 
 afterEvaluate {

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--  Frogo Compose UI Base Dimen  -->
+    <dimen name="frogo_dimen_24dp">24dp</dimen>
+</resources>

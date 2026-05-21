@@ -103,7 +103,7 @@ frogo-ui-recyclerview = { group = "com.github.frogobox.frogo-sdk", name = "frogo
 
 ### frogo-compose-ui — Jetpack Compose UI Kit
 
-The `frogo-compose-ui` module provides **60+ ready-to-use** Compose components following Material Design 3. See [Compose UI Reference](references/compose-ui-reference.md) for the full API catalog.
+The `frogo-compose-ui` module provides **70+ ready-to-use** Compose components following Material Design 3. See [Compose UI Reference](references/compose-ui-reference.md) for the full API catalog.
 
 #### Available Widget Categories:
 
@@ -112,6 +112,14 @@ The `frogo-compose-ui` module provides **60+ ready-to-use** Compose components f
 **Templates (22):** App Bars (6), Bottom Sheets (3), Dialogs (5), Navigation (3), Scaffolds (2), Shimmer (2), Snackbar (1), Tabs (2), Empty State (1).
 
 **List Components (15):** Basic lists (5), Coil image-loaded lists (5), Glide image-loaded lists (5).
+
+**Animations (new):** `FrogoAnimationCompose` (attention-seeking animations such as Flash, Bounce, Rubberband, etc.), `FrogoSingleAnimationCompose` (custom transition animations for navigation).
+
+**Interactive Fireworks (new):** State-driven Particle System Canvas (`FrogoFireworksCompose`, `rememberFrogoFireworksStateCompose`) for tap-point explosions and streamers.
+
+**Canvas Loading Indicators (new):** Custom lightweight canvas-drawn indicators (`FrogoLoadingIndicatorCompose` supporting Pacman, BallPulse, ClipRotate, LineScale, BallScale, etc.).
+
+**Compose Extensions (new):** `Modifier.frogoStartAnimationCompose`, `Modifier.frogoClickWithFireworksCompose`.
 
 #### Quick Example — Scaffold with TopAppBar and List:
 
@@ -180,6 +188,57 @@ FrogoCoilLazyColumn(data = imageItems) { index, item ->
         onClick = { /* navigate */ }
     )
 }
+```
+
+#### Quick Example — Attention Animations:
+
+```kotlin
+import com.frogobox.composeui.animation.FrogoAnimationComposeType
+import com.frogobox.composeui.animation.frogoAnimationCompose
+
+Text(
+    text = "Bounce!",
+    modifier = Modifier.frogoAnimationCompose(
+        type = FrogoAnimationComposeType.Bounce,
+        trigger = Unit,
+        repeat = true
+    )
+)
+```
+
+#### Quick Example — Click with Fireworks:
+
+```kotlin
+import com.frogobox.composeui.fireworks.FrogoFireworksCompose
+import com.frogobox.composeui.fireworks.rememberFrogoFireworksStateCompose
+import com.frogobox.composeui.ext.frogoClickWithFireworksCompose
+
+val fireworksState = rememberFrogoFireworksStateCompose()
+
+Box(modifier = Modifier.fillMaxSize()) {
+    Button(
+        onClick = {},
+        modifier = Modifier.frogoClickWithFireworksCompose(fireworksState) {
+            // your action
+        }
+    ) {
+        Text("Explode on tap!")
+    }
+
+    FrogoFireworksCompose(state = fireworksState, modifier = Modifier.fillMaxSize())
+}
+```
+
+#### Quick Example — Custom Loading Indicator:
+
+```kotlin
+import com.frogobox.composeui.loadingindicator.FrogoLoadingIndicatorCompose
+
+FrogoLoadingIndicatorCompose(
+    indicatorName = "Pacman",
+    color = Color.Yellow,
+    size = 50.dp
+)
 ```
 
 ---
