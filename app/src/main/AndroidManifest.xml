@@ -167,6 +167,11 @@
             android:hardwareAccelerated="true" />
 
         <activity
+            android:name=".appadmob.mvvm.main.MainAdmobComposeActivity"
+            android:exported="false"
+            android:hardwareAccelerated="true" />
+
+        <activity
             android:name=".appcompose.MainComposeActivity"
             android:exported="false" />
 

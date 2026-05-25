@@ -1,0 +1,54 @@
+package com.frogobox.ads.ui.compose
+
+import androidx.lifecycle.lifecycleScope
+import com.frogobox.ads.delegate.AdmobDelegates
+import com.frogobox.ads.delegate.AdmobDelegatesImpl
+import com.frogobox.ads.delegate.FrogoAdDelegates
+import com.frogobox.ads.delegate.FrogoAdDelegatesImpl
+import com.frogobox.ads.delegate.UnityAdDelegates
+import com.frogobox.ads.delegate.UnityAdDelegatesImpl
+import com.frogobox.compose.view.FrogoComposeActivity
+
+/**
+ * Created by Faisal Amir
+ * FrogoBox Inc License
+ * =========================================
+ * ImplementationAdmob
+ * Copyright (C) 31/10/2019.
+ * All rights reserved
+ * -----------------------------------------
+ * Name     : Muhammad Faisal Amir
+ * E-mail   : faisalamircs@gmail.com
+ * Github   : github.com/amirisback
+ * LinkedIn : linkedin.com/in/faisalamircs
+ * -----------------------------------------
+ * FrogoBox Software Industries
+ * com.frogobox.admobhelper
+ *
+ */
+
+abstract class FrogoAdComposeActivity : FrogoComposeActivity(),
+    AdmobDelegates by AdmobDelegatesImpl(),
+    UnityAdDelegates by UnityAdDelegatesImpl(),
+    FrogoAdDelegates by FrogoAdDelegatesImpl() {
+
+    companion object {
+        val TAG: String = FrogoAdComposeActivity::class.java.simpleName
+    }
+
+    override fun setupDelegates() {
+        super.setupDelegates()
+        setupAdmobDelegates(this)
+        setupUnityAdDelegates(this)
+        setupFrogoAdDelegates(this)
+    }
+
+    override fun setupMonetized() {
+        super.setupMonetized()
+        lifecycleScope.launchWhenCreated {
+            // Initialize the Google Mobile Ads SDK on a background thread.
+            setupAdmobApp()
+        }
+    }
+
+}

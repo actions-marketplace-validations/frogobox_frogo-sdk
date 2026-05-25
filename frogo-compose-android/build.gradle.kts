@@ -85,6 +85,7 @@ dependencies {
     testImplementation(libs.robolectric)
     testImplementation(libs.androidx.test.core)
     testImplementation(libs.espresso.core)
+    testImplementation(libs.kotlinx.coroutines.test)
 }
 
 afterEvaluate {
