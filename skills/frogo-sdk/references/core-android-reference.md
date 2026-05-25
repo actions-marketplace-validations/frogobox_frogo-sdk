@@ -75,6 +75,26 @@ BottomSheetDialogFragment with ViewBinding.
 ### FrogoViewModel
 Base ViewModel with CoroutineScope.
 
+### FrogoStateViewModel<STATE, EFFECT>
+Template ViewModel implementing Unidirectional Data Flow (UDF) / MVI pattern using StateFlow (for UI State) and SharedFlow (for UI Effects/one-off events). Symmetrical implementation to `FrogoComposeStateViewModel`.
+
+**Usage:**
+```kotlin
+data class MainUiState(val isLoading: Boolean = false)
+sealed interface MainUiEffect {
+    data class ShowToast(val message: String) : MainUiEffect
+}
+
+class MainViewModel : FrogoStateViewModel<MainUiState, MainUiEffect>(MainUiState()) {
+    fun load() {
+        updateState { copy(isLoading = true) }
+        // Do some loading logic
+        updateState { copy(isLoading = false) }
+        emitEffect(MainUiEffect.ShowToast("Finished loading"))
+    }
+}
+```
+
 ---
 
 ## Extension Functions (`ext/`)

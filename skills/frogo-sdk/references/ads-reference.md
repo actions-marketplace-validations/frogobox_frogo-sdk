@@ -96,11 +96,11 @@ class MyActivity : AppCompatActivity(), AdmobDelegates by AdmobDelegatesImpl() {
             timeoutMilliSecond = 5000,
             keyword = listOf("games", "apps"),
             callback = object : FrogoAdmobBannerCallback {
-                override fun onAdLoaded() { }
-                override fun onAdFailedToLoad(error: String) { }
-                override fun onAdOpened() { }
-                override fun onAdClosed() { }
-                override fun onAdClicked() { }
+                override fun onAdLoaded(tag: String, message: String) { }
+                override fun onAdFailedToLoad(tag: String, errorCode: String, errorMessage: String) { }
+                override fun onAdOpened(tag: String, message: String) { }
+                override fun onAdClicked(tag: String, message: String) { }
+                override fun onAdClosed(tag: String, message: String) { }
             }
         )
 
@@ -116,11 +116,15 @@ class MyActivity : AppCompatActivity(), AdmobDelegates by AdmobDelegatesImpl() {
 
         // Show rewarded ad
         showAdRewarded("ca-app-pub-xxxxx/xxxxx", object : FrogoAdmobRewardedCallback {
-            override fun onUserEarnedReward(rewardItem: RewardItem) {
+            override fun onUserEarnedReward(tag: String, rewardItem: RewardItem) {
                 // Grant reward
             }
-            override fun onAdDismissed() { }
-            override fun onAdFailedToLoad() { }
+            override fun onShowAdRequestProgress(tag: String, message: String) { }
+            override fun onHideAdRequestProgress(tag: String, message: String) { }
+            override fun onAdDismissed(tag: String, message: String) { }
+            override fun onAdFailed(tag: String, errorMessage: String) { }
+            override fun onAdLoaded(tag: String, message: String) { }
+            override fun onAdShowed(tag: String, message: String) { }
         })
     }
 }
@@ -135,7 +139,32 @@ Higher-level combined delegate that wraps both AdMob and Unity ad functionality.
 ```kotlin
 interface FrogoAdDelegates {
     fun setupFrogoAdDelegates(activity: AppCompatActivity)
-    // ... combined ad methods
+
+    fun showAdmobXUnityAdInterstitial(
+        admobInterstitialId: String,
+        unityInterstitialId: String,
+        callback: FrogoAdInterstitialCallback
+    )
+
+    fun showAdmobXUnityAdInterstitial(
+        admobInterstitialId: String,
+        unityInterstitialId: String,
+        timeout: Int,
+        callback: FrogoAdInterstitialCallback
+    )
+
+    fun showUnityXAdmobAdInterstitial(
+        admobInterstitialId: String,
+        unityInterstitialId: String,
+        callback: FrogoAdInterstitialCallback
+    )
+
+    fun showUnityXAdmobAdInterstitial(
+        admobInterstitialId: String,
+        unityInterstitialId: String,
+        timeout: Int,
+        callback: FrogoAdInterstitialCallback
+    )
 }
 ```
 
@@ -147,8 +176,17 @@ interface FrogoAdDelegates {
 ```kotlin
 interface UnityAdDelegates {
     fun setupUnityAdDelegates(activity: AppCompatActivity)
-    fun showUnityBanner(adUnitId: String, container: RelativeLayout)
-    fun showUnityInterstitial(adUnitId: String)
+
+    fun setupUnityAdApp(
+        testMode: Boolean,
+        unityGameId: String,
+        callback: FrogoUnityAdInitializationCallback? = null
+    )
+
+    fun showUnityAdInterstitial(
+        adInterstitialUnitId: String,
+        callback: FrogoUnityAdInterstitialCallback? = null
+    )
 }
 ```
 
@@ -158,7 +196,11 @@ class MyActivity : AppCompatActivity(), UnityAdDelegates by UnityAdDelegatesImpl
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setupUnityAdDelegates(this)
-        showUnityBanner("unity-banner-id", binding.adContainer)
+        
+        setupUnityAdApp(
+            testMode = BuildConfig.DEBUG,
+            unityGameId = "unity-game-id"
+        )
     }
 }
 ```
@@ -167,42 +209,191 @@ class MyActivity : AppCompatActivity(), UnityAdDelegates by UnityAdDelegatesImpl
 
 ## Callbacks
 
+### FrogoAdCoreInterstitialCallback
+```kotlin
+interface FrogoAdCoreInterstitialCallback {
+    fun onShowAdRequestProgress(tag: String, message: String)
+    fun onHideAdRequestProgress(tag: String, message: String)
+    fun onAdDismissed(tag: String, message: String)
+    fun onAdFailed(tag: String, errorMessage: String)
+    fun onAdLoaded(tag: String, message: String)
+    fun onAdShowed(tag: String, message: String)
+}
+```
+
 ### FrogoAdmobBannerCallback
 ```kotlin
 interface FrogoAdmobBannerCallback {
-    fun onAdLoaded()
-    fun onAdFailedToLoad(error: String)
-    fun onAdOpened()
-    fun onAdClosed()
-    fun onAdClicked()
+    fun onAdLoaded(tag: String, message: String)
+    fun onAdFailedToLoad(tag: String, errorCode: String, errorMessage: String)
+    fun onAdOpened(tag: String, message: String)
+    fun onAdClicked(tag: String, message: String)
+    fun onAdClosed(tag: String, message: String)
 }
 ```
 
 ### FrogoAdmobInterstitialCallback
 ```kotlin
-interface FrogoAdmobInterstitialCallback {
-    fun onAdLoaded()
-    fun onAdFailedToLoad(error: String)
-    fun onAdDismissed()
-    fun onShowAdRequestProgress()
-    fun onHideAdRequestProgress()
-}
+interface FrogoAdmobInterstitialCallback : FrogoAdCoreInterstitialCallback
 ```
 
 ### FrogoAdmobRewardedCallback
 ```kotlin
-interface FrogoAdmobRewardedCallback {
-    fun onUserEarnedReward(rewardItem: RewardItem)
-    fun onAdDismissed()
-    fun onAdFailedToLoad()
+interface FrogoAdmobRewardedCallback : FrogoAdCoreInterstitialCallback {
+    fun onUserEarnedReward(tag: String, rewardItem: RewardItem)
 }
+```
+
+### FrogoAdmobAppOpenAdCallback
+```kotlin
+interface FrogoAdmobAppOpenAdCallback : FrogoAdCoreInterstitialCallback
+```
+
+### FrogoUnityAdInitializationCallback
+```kotlin
+interface FrogoUnityAdInitializationCallback {
+    fun onInitializationComplete(tag: String, message: String)
+    fun onInitializationFailed(tag: String, message: String)
+}
+```
+
+### FrogoUnityAdInterstitialCallback
+```kotlin
+interface FrogoUnityAdInterstitialCallback : FrogoAdCoreInterstitialCallback {
+    fun onClicked(tag: String, message: String)
+}
+```
+
+### FrogoAdInterstitialCallback
+```kotlin
+interface FrogoAdInterstitialCallback : FrogoUnityAdInterstitialCallback
 ```
 
 ### IFrogoAdConsent
 ```kotlin
 interface IFrogoAdConsent {
+    fun activity(): Activity
+    fun isDebug(): Boolean
+    fun isUnderAgeAd(): Boolean
+    fun onNotUsingAdConsent()
     fun onConsentSuccess()
-    fun onConsentError(error: String)
+    fun onConsentError(formError: FormError)
+}
+```
+
+---
+
+## Jetpack Compose Ad Activities (NEW)
+
+### Class Hierarchy
+- **`FrogoAdComposeActivity`**: Implements hybrid AdMob & Unity ads, inherits from `FrogoComposeActivity`.
+- **`FrogoAdmobComposeActivity`**: Implements AdMob delegates, inherits from `FrogoComposeActivity`.
+- **`FrogoUnityAdComposeActivity`**: Implements Unity delegates, inherits from `FrogoComposeActivity`.
+- **`AdComposeActivity`**, **`AdmobComposeActivity`**, **`UnityAdComposeActivity`**: Non-Frogo base classes inheriting directly from `AppCompatActivity` for projects not using `FrogoComposeActivity`'s lifecycle features.
+
+### Compose Ad Activity Implementation Example
+Here is a sample Compose implementation (`MainAdmobComposeActivity.kt`) utilizing hybrid FALLBACK ads (`showAdmobXUnityAdInterstitial`) and a banner displayed via Compose `AndroidView`:
+
+```kotlin
+class MainAdmobComposeActivity : FrogoAdComposeActivity(),
+    FrogoAdmobInterstitialCallback, FrogoAdmobRewardedCallback, FrogoAdmobAppOpenAdCallback,
+    FrogoAdInterstitialCallback {
+
+    private val adStatus = mutableStateOf("Ready to request ads")
+    private val isAdLoading = mutableStateOf(false)
+
+    override fun setupMonetized() {
+        super.setupMonetized()
+        setupUnityAdApp(BuildConfig.DEBUG, getString(R.string.unity_ad_game_id))
+    }
+
+    override fun onCreateExt(savedInstanceState: Bundle?) {
+        super.onCreateExt(savedInstanceState)
+
+        showAdConsent(object : IFrogoAdConsent {
+            override fun activity(): Activity = this@MainAdmobComposeActivity
+            override fun isDebug(): Boolean = BuildConfig.DEBUG
+            override fun isUnderAgeAd(): Boolean = false
+            override fun onNotUsingAdConsent() {}
+            override fun onConsentSuccess() {}
+            override fun onConsentError(formError: FormError) {
+                showLogDebug("Consent Error: ${formError.message}")
+            }
+        })
+    }
+
+    @Composable
+    override fun SetupCompose() {
+        Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
+            Text(text = adStatus.value)
+            if (isAdLoading.value) {
+                CircularProgressIndicator()
+            }
+
+            Button(onClick = {
+                // Admob -> Fallback to Unity Interstitial
+                showAdmobXUnityAdInterstitial(
+                    admobInterstitialId = getString(R.string.admob_interstitial),
+                    unityInterstitialId = getString(R.string.unity_ad_interstitial),
+                    callback = this@MainAdmobComposeActivity
+                )
+            }) {
+                Text("Show Hybrid Interstitial")
+            }
+
+            Button(onClick = {
+                showAdRewarded(getString(R.string.admob_rewarded), this@MainAdmobComposeActivity)
+            }) {
+                Text("Show Rewarded Ad")
+            }
+
+            // Banner integration using AndroidView
+            AndroidView(
+                modifier = Modifier.fillMaxWidth().height(50.dp),
+                factory = { context ->
+                    AdView(context).apply {
+                        setAdSize(AdSize.BANNER)
+                        adUnitId = context.getString(R.string.admob_banner)
+                        showAdBanner(this)
+                    }
+                }
+            )
+        }
+    }
+
+    // Callbacks
+    override fun onShowAdRequestProgress(tag: String, message: String) {
+        isAdLoading.value = true
+        adStatus.value = "Loading: $message"
+    }
+
+    override fun onHideAdRequestProgress(tag: String, message: String) {
+        isAdLoading.value = false
+    }
+
+    override fun onAdDismissed(tag: String, message: String) {
+        adStatus.value = "Ad dismissed: $message"
+    }
+
+    override fun onAdFailed(tag: String, errorMessage: String) {
+        adStatus.value = "Ad failed: $errorMessage"
+    }
+
+    override fun onAdLoaded(tag: String, message: String) {
+        adStatus.value = "Ad loaded: $message"
+    }
+
+    override fun onAdShowed(tag: String, message: String) {
+        adStatus.value = "Ad showed: $message"
+    }
+
+    override fun onUserEarnedReward(tag: String, rewardItem: RewardItem) {
+        adStatus.value = "Earned Reward: ${rewardItem.amount} ${rewardItem.type}"
+    }
+
+    override fun onClicked(tag: String, message: String) {
+        adStatus.value = "Ad clicked: $message"
+    }
 }
 ```
 
