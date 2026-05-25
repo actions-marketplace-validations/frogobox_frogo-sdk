@@ -57,6 +57,13 @@
                 android:text="Java Sample"
                 android:textColor="@color/colorText" />
 
+            <Button
+                android:id="@+id/btn_admob_compose"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Compose Admob"
+                android:textColor="@color/colorText" />
+
         </LinearLayout>
 
     </ScrollView>

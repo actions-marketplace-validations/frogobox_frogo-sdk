@@ -12,7 +12,7 @@ import com.frogobox.composeui.widget.FrogoButton
 class MainComposeUiActivity : FrogoComposeActivity() {
 
     @Composable
-    override fun setupCompose() {
+    override fun SetupCompose() {
         ComposeUiMainScreen()
     }
 }

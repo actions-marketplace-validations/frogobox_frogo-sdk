@@ -34,9 +34,9 @@ class FrogoComposeActivityTest {
         }
 
         @Composable
-        override fun setupCompose() {
+        override fun SetupCompose() {
             setupComposeCalled = true
-            callOrder.add("setupCompose")
+            callOrder.add("SetupCompose")
             Text(text = "Hello Test Compose")
         }
     }
@@ -56,11 +56,11 @@ class FrogoComposeActivityTest {
         assertTrue(activity.setupDelegatesCalled)
         assertTrue(activity.setupComposeCalled)
 
-        // Verify correct order: setupViewModel -> setupDelegates -> setupCompose
+        // Verify correct order: setupViewModel -> setupDelegates -> SetupCompose
         assertEquals(3, activity.callOrder.size)
         assertEquals("setupViewModel", activity.callOrder[0])
         assertEquals("setupDelegates", activity.callOrder[1])
-        assertEquals("setupCompose", activity.callOrder[2])
+        assertEquals("SetupCompose", activity.callOrder[2])
     }
 
     // =============================================================================================

@@ -85,6 +85,10 @@ class MainAdmobActivity : BaseActivity<ActivityMainAdmobBinding>() {
                 startActivityExt<MainJavaAdmobActivity>()
             }
 
+            btnAdmobCompose.setOnClickListener {
+                startActivityExt<MainAdmobComposeActivity>()
+            }
+
             btnAppOpenAd.setOnClickListener {
                 startActivityExt<AppOpenAdActivity>()
             }

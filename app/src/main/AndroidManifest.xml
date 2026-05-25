@@ -14,6 +14,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/ThemeSdk"
+        tools:replace="android:theme"
         tools:targetApi="tiramisu">
 
         <activity
@@ -162,6 +163,11 @@
 
         <activity
             android:name=".appadmob.mvvm.main.MainAdmobActivity"
+            android:exported="false"
+            android:hardwareAccelerated="true" />
+
+        <activity
+            android:name=".appadmob.mvvm.main.MainAdmobComposeActivity"
             android:exported="false"
             android:hardwareAccelerated="true" />
 

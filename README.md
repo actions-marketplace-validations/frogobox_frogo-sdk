@@ -22,9 +22,9 @@
 
 This Is Latest Release
 
-    $version_release = 3.0.0
+    $version_release = 3.0.1
 
-What's New?? (v2.3.7 → v3.0.0)
+What's New?? (v2.3.7 → v3.0.1)
 
     * New Module: frogo-compose-android - Jetpack Compose base classes *
     * New Module: frogo-compose-ui - 60+ reusable Compose widgets & templates *
@@ -82,16 +82,16 @@ dependencyResolutionManagement {
 ```
 
 ### Step 2: Add Dependencies
-Latest Version: `3.0.0`
+Latest Version: `3.0.1`
 
 ```kotlin
 dependencies {
     // Core SDK
-    implementation("com.github.frogobox:frogo-sdk:3.0.0")
+    implementation("com.github.frogobox:frogo-sdk:3.0.1")
 
     // Or specific modules (recommended)
-    implementation("com.github.frogobox.frogo-sdk:frogo-compose-ui:3.0.0")
-    implementation("com.github.frogobox.frogo-sdk:frogo-ext-ads:3.0.0")
+    implementation("com.github.frogobox.frogo-sdk:frogo-compose-ui:3.0.1")
+    implementation("com.github.frogobox.frogo-sdk:frogo-ext-ads:3.0.1")
 }
 ```
 

@@ -12,7 +12,7 @@ import com.frogobox.compose.view.FrogoComposeActivity
 class MainComposeActivity : FrogoComposeActivity() {
 
     @Composable
-    override fun setupCompose() {
+    override fun SetupCompose() {
         Box(
             modifier = Modifier.Companion.fillMaxSize(),
             contentAlignment = Alignment.Companion.Center

@@ -18,10 +18,17 @@ import org.robolectric.shadows.ShadowNetworkInfo
 @RunWith(RobolectricTestRunner::class)
 class CompatibilityTest {
 
+    private fun setNetworkDisconnected(context: Context) {
+        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val shadowConnectivityManager = shadowOf(connectivityManager)
+        shadowConnectivityManager.setActiveNetworkInfo(null)
+    }
+
     @Test
     @Config(sdk = [23]) // Compatibility check on API 23 (Android M - uses NetworkCapabilities branch)
     fun testIsNetworkConnected_API23_Disconnected() {
         val context = ApplicationProvider.getApplicationContext<Context>()
+        setNetworkDisconnected(context)
 
         // On API 23+ with no active network set, should return false
         val isConnected = FrogoFunc.isNetworkConnected(context)
@@ -32,6 +39,7 @@ class CompatibilityTest {
     @Config(sdk = [28]) // Compatibility check on API 28 (Android Pie)
     fun testIsNetworkConnected_API28_Disconnected() {
         val context = ApplicationProvider.getApplicationContext<Context>()
+        setNetworkDisconnected(context)
 
         val isConnected = FrogoFunc.isNetworkConnected(context)
         assertFalse("Should return false when no active network on API 28", isConnected)
@@ -41,6 +49,7 @@ class CompatibilityTest {
     @Config(sdk = [33]) // Compatibility check on API 33 (Android Tiramisu)
     fun testIsNetworkConnected_API33_Disconnected() {
         val context = ApplicationProvider.getApplicationContext<Context>()
+        setNetworkDisconnected(context)
 
         val isConnected = FrogoFunc.isNetworkConnected(context)
         assertFalse("Should return false when no active network on API 33", isConnected)
@@ -50,6 +59,7 @@ class CompatibilityTest {
     @Config(sdk = [34]) // Compatibility check on API 34 (Android UpsideDownCake)
     fun testIsNetworkConnected_API34_Disconnected() {
         val context = ApplicationProvider.getApplicationContext<Context>()
+        setNetworkDisconnected(context)
 
         val isConnected = FrogoFunc.isNetworkConnected(context)
         assertFalse("Should return false when no active network on API 34", isConnected)

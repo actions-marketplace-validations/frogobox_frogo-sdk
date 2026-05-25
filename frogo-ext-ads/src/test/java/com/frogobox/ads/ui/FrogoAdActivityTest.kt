@@ -8,7 +8,6 @@ import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 
 @RunWith(RobolectricTestRunner::class)
-@Config(theme = androidx.appcompat.R.style.Theme_AppCompat_DayNight)
 class FrogoAdActivityTest {
 
     // Concrete implementations of abstract activities for testing

@@ -17,10 +17,14 @@ open class FrogoWebViewActivity : FrogoBindActivity<ActivityFrogoWebViewBinding>
         const val EXTRA_TITLE = "EXTRA_TITLE"
 
         fun startActivityExt(context: Context, url: String, title: String) {
-            context.startActivity(Intent(context, FrogoWebViewActivity::class.java).apply {
+            val intent = Intent(context, FrogoWebViewActivity::class.java).apply {
                 putExtra(EXTRA_URL, url)
                 putExtra(EXTRA_TITLE, title)
-            })
+                if (context !is android.app.Activity) {
+                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                }
+            }
+            context.startActivity(intent)
         }
     }
 
