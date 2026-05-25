@@ -269,6 +269,7 @@ class MyApp : FrogoApplication() {
 | `FrogoBindFragment<VB>` | Fragment with ViewBinding support |
 | `FrogoBindBottomSheet<VB>` | BottomSheetDialogFragment with ViewBinding |
 | `FrogoViewModel` | Base ViewModel with coroutine scope |
+| `FrogoStateViewModel<STATE, EFFECT>` | UDF/MVI State-driven ViewModel for XML/View based architectures |
 
 #### Extension Functions (16 files):
 
@@ -287,7 +288,66 @@ val data = jsonString.fromJson<MyModel>()
 
 ---
 
-### frogo-ext-ads — AdMob & Unity Ads
+### frogo-compose-android — Compose-Specific Base Classes & UDF ViewModels
+
+This module provides base elements and lifecycle integrations tailored for Jetpack Compose.
+
+#### View & ViewModel Base Classes:
+
+| Class | Purpose |
+| :--- | :--- |
+| `FrogoComposeActivity` | Base Activity for Compose with edge-to-edge support, modern back-press handling, and system UI helpers |
+| `FrogoComposeViewModel` | Base ViewModel for Compose |
+| `FrogoComposeStateViewModel<STATE, EFFECT>` | UDF/MVI State-driven ViewModel for UI state and one-off side effects in Compose |
+
+#### Setup & System UI Utilities:
+In `FrogoComposeActivity`, you do not call `setContent` manually in `onCreate`. Instead, implement `SetupCompose()`:
+```kotlin
+class MyComposeActivity : FrogoComposeActivity() {
+
+    override fun onCreateExt(savedInstanceState: Bundle?) {
+        super.onCreateExt(savedInstanceState)
+        
+        // Enable fullscreen (hides status/navigation bars)
+        setupFullScreen()
+        
+        // Or configure custom back press handling
+        // setupDoOnBackPressedExt() is auto-configured to call doOnBackPressedExt()
+    }
+
+    override fun doOnBackPressedExt() {
+        // Custom exit logic here
+        super.doOnBackPressedExt()
+    }
+
+    @Composable
+    override fun SetupCompose() {
+        // Compose elements here
+    }
+}
+```
+
+#### UDF/MVI ViewModel Integration:
+Extend `FrogoComposeStateViewModel` and define your `STATE` and `EFFECT`:
+```kotlin
+data class MainUiState(val isLoading: Boolean = false, val data: List<String> = emptyList())
+sealed interface MainUiEffect {
+    data class ShowToast(val msg: String) : MainUiEffect
+}
+
+class MainViewModel : FrogoComposeStateViewModel<MainUiState, MainUiEffect>(MainUiState()) {
+    fun loadContent() {
+        updateState { copy(isLoading = true) }
+        // Perform action, then update state or emit effect:
+        updateState { copy(isLoading = false, data = listOf("Item A", "Item B")) }
+        emitEffect(MainUiEffect.ShowToast("Loaded!"))
+    }
+}
+```
+
+---
+
+### frogo-ext-ads — AdMob & Unity Ads (XML & Jetpack Compose)
 
 See [Ads Reference](references/ads-reference.md) for the full delegate API.
 
@@ -309,7 +369,8 @@ class MyApp : FrogoAdmobApplication() {
 }
 ```
 
-#### Using Delegate Pattern:
+#### Option A: XML-based Views (Delegate Pattern)
+All callbacks now implement `FrogoAdCoreInterstitialCallback` and require `(tag: String, message: String)` or similar arguments.
 
 ```kotlin
 class MyActivity : AppCompatActivity(), AdmobDelegates by AdmobDelegatesImpl() {
@@ -326,21 +387,83 @@ class MyActivity : AppCompatActivity(), AdmobDelegates by AdmobDelegatesImpl() {
         
         // Rewarded Ad
         showAdRewarded("ad-unit-id", object : FrogoAdmobRewardedCallback {
-            override fun onUserEarnedReward(rewardItem: RewardItem) { }
-            override fun onAdDismissed() { }
-            override fun onAdFailedToLoad() { }
+            override fun onUserEarnedReward(tag: String, rewardItem: RewardItem) { }
+            override fun onShowAdRequestProgress(tag: String, message: String) { }
+            override fun onHideAdRequestProgress(tag: String, message: String) { }
+            override fun onAdDismissed(tag: String, message: String) { }
+            override fun onAdFailed(tag: String, errorMessage: String) { }
+            override fun onAdLoaded(tag: String, message: String) { }
+            override fun onAdShowed(tag: String, message: String) { }
         })
     }
 }
 ```
 
+#### Option B: Compose-based Activities (NEW)
+Use `FrogoAdComposeActivity` (hybrid AdMob & Unity), `FrogoAdmobComposeActivity` (AdMob only), or `FrogoUnityAdComposeActivity` (Unity only). These inherit from `FrogoComposeActivity` and implement delegation automatically.
+
+Non-Frogo base classes (e.g. `AdComposeActivity`, `AdmobComposeActivity`) are also available if you do not want lifecycle hook automation.
+
+```kotlin
+class MyAdmobComposeActivity : FrogoAdmobComposeActivity(), FrogoAdmobRewardedCallback {
+
+    private val adStatus = mutableStateOf("Ready to load")
+
+    @Composable
+    override fun SetupCompose() {
+        Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
+            Text(text = adStatus.value)
+            
+            Button(onClick = {
+                // Show rewarded ad passing this activity as callback
+                showAdRewarded("rewarded-ad-unit-id", this@MyAdmobComposeActivity)
+            }) {
+                Text("Show Rewarded Ad")
+            }
+
+            // Render Banner Ad via AndroidView integration
+            AndroidView(
+                modifier = Modifier.fillMaxWidth().height(50.dp),
+                factory = { context ->
+                    AdView(context).apply {
+                        setAdSize(AdSize.BANNER)
+                        adUnitId = "banner-ad-unit-id"
+                        showAdBanner(this)
+                    }
+                }
+            )
+        }
+    }
+
+    override fun onUserEarnedReward(tag: String, rewardItem: RewardItem) {
+        adStatus.value = "Reward earned: ${rewardItem.amount}"
+    }
+
+    override fun onShowAdRequestProgress(tag: String, message: String) {
+        adStatus.value = "Loading ad... $message"
+    }
+
+    override fun onHideAdRequestProgress(tag: String, message: String) {}
+    override fun onAdDismissed(tag: String, message: String) {
+        adStatus.value = "Ad dismissed: $message"
+    }
+    override fun onAdFailed(tag: String, errorMessage: String) {
+        adStatus.value = "Ad failed: $errorMessage"
+    }
+    override fun onAdLoaded(tag: String, message: String) {
+        adStatus.value = "Ad loaded: $message"
+    }
+    override fun onAdShowed(tag: String, message: String) {}
+}
+```
+
 #### Ad Types Supported:
-- **Banner**: Standard, Container, with Keywords/Timeout
-- **Interstitial**: Standard, with Keywords/Timeout/Callbacks
-- **Rewarded**: Standard, with Keywords/Timeout
-- **Rewarded Interstitial**: Standard, with Keywords/Timeout
-- **Ad Consent**: GDPR compliance dialog
-- **Unity Ads**: Banner, Interstitial via UnityAdDelegates
+- **Banner**: Standard XML, Container-based relative layout, and Compose `AndroidView` integration
+- **Interstitial**: Standard, Timeout-supported, Hybrid fallback (Admob X Unity / Unity X Admob)
+- **Rewarded & Rewarded Interstitial**: Standard, Timeout-supported
+- **App Open Ad**: Integrated lifecycle application-wide ads
+- **Ad Consent**: GDPR/UMP consent forms support
+- **Unity Ads**: Banner & Interstitial delegates
 
 ---
 

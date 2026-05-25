@@ -2,13 +2,39 @@ package com.frogobox.compose.view
 
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
+import org.junit.After
+import org.junit.Before
 import org.junit.Test
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicInteger
 import kotlin.system.measureTimeMillis
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.yield
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.resetMain
+import kotlinx.coroutines.test.setMain
+
+
 
 class FrogoComposeViewModelTest {
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @Before
+    fun setUp() {
+        Dispatchers.setMain(UnconfinedTestDispatcher())
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @After
+    fun tearDown() {
+        Dispatchers.resetMain()
+    }
 
     // Concrete implementation of FrogoComposeViewModel for testing
     private class TestViewModel : FrogoComposeViewModel() {
@@ -101,4 +127,53 @@ class FrogoComposeViewModelTest {
         assertTrue(viewModel.onStartCalled)
         assertTrue(viewModel.onClearDisposableCalled)
     }
+
+    // =============================================================================================
+    // STATE VIEW MODEL TESTS
+    // =============================================================================================
+
+    data class TestState(val data: String = "initial")
+    sealed interface TestEffect {
+        object Navigate : TestEffect
+    }
+
+    private class TestStateViewModel : FrogoComposeStateViewModel<TestState, TestEffect>(TestState()) {
+        fun updateData(newData: String) {
+            updateState { copy(data = newData) }
+        }
+
+        fun triggerEffect() {
+            emitEffect(TestEffect.Navigate)
+        }
+    }
+
+    @Test
+    fun testStateViewModelFlows() = runBlocking {
+        val viewModel = TestStateViewModel()
+
+        // Assert initial state
+        assertEquals("initial", viewModel.uiState.value.data)
+
+        // Update state and assert
+        viewModel.updateData("updated")
+        assertEquals("updated", viewModel.uiState.value.data)
+
+        // Capture effects in a list
+        val effects = mutableListOf<TestEffect>()
+        val job = launch(Dispatchers.Main) {
+            viewModel.uiEffect.collect { effects.add(it) }
+        }
+
+        // Yield to allow subscription to register
+        yield()
+
+        // Trigger effect and assert emission
+        viewModel.triggerEffect()
+        assertEquals(1, effects.size)
+        assertEquals(TestEffect.Navigate, effects[0])
+
+        // Clean up job
+        job.cancel()
+    }
 }
+

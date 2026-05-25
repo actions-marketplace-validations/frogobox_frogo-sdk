@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.parcelize)
+    alias(libs.plugins.compose.compiler)
     `maven-publish`
 }
 
@@ -43,6 +44,7 @@ android {
         viewBinding = true
         buildConfig = true
         resValues = true
+        compose = true
     }
 
     compileOptions {
@@ -72,6 +74,24 @@ dependencies {
     api(libs.ads.google.admob)
     api(libs.androidx.lifecycle.process)
     api(libs.ads.unityAd)
+
+    // Jetpack Compose
+    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.compose.ui)
+    implementation(libs.androidx.compose.ui.tooling.preview)
+    implementation(libs.androidx.compose.material3)
+
+    // Activity Compose
+    implementation(libs.androidx.activity.compose)
+
+    // Lifecycle / ViewModel Compose
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.androidx.lifecycle.runtime.compose)
+
+    debugImplementation(libs.androidx.compose.ui.tooling)
+
+    // Frogo Compose
+    implementation(project(DependencyGradle.FROGO_PATH_COMPOSE))
 
     testImplementation(libs.junit)
     testImplementation(libs.mockk)
